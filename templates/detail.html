@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'blog' %}">Назад</a>
+
+      {% for p in photos %}
+
+        <img  src="{{p.image.url}}">
+
+
+      {% endfor %}
+ 
+    <h2><label><h5>Названия </h5></label> {{post.title}}</h2>
+    <h3><label><h5>Описания </h5></label> {{post.description}}</h3>
+    <h2><label><h5>Цена</h5></label> {{post.price}}{{post.currency}}</h2>
+    <h2><label><h5>Страна</h5></label> {{post.country}}</h2>
+    <h3><label><h5>Номер телефона</h5></label> {{post.number}}</h3>
+    <h3><label><h5>Дата публикации</h5></label> {{post.date_publeshed}}</h3>
+    <h3><label><h5>Категория</h5></label> {{post.category}}</h3><br>
+
+<h1>Комментарии: </h1>
+{% if latest_comments_list %}
+  {% for c in latest_comments_list %}
+  <p>
+     
+    <div style="border: 2px solid black">
+      {{c.date_pub}}
+    <div class="div3 ml-3"><span class="badge badge-success">{{c.author_name}}</span></div>
+    <div class="div4 ml-3"><p>{{c.comment_text}}</div>
+  </div>
+
+
+  </p>
+  {% endfor %}
+{% else %}
+<div class="ml-3">Комментарий не найдены! Станьте первым.</div>
+{% endif %}
+
+<hr>
+
+
+<form action="{% url 'leave_comment' post.id %}" method="POST">
+
+  {% csrf_token %}
+
+  <div ><input type="text" required placeholder="Ваше имя" name="name"></div>
+  <div ><textarea name="text" required="" placeholder="Текст комментария" cols="50" rows="6"></textarea></div><br>
+
+  <div class="div5 ml-3"><button type="submit" class="btn btn-primary">Оставить комментарий</button></div>
+</form>
+
+
+  {% endblock %}}

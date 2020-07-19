@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+{% block title %}create{% endblock%}
+{%block content%}
+<h1>Create your Ads</h1>
+<a href="{% url 'blog' %}">Home</a>
+{% for rubric in rubrics %}
+<a href="{% url 'by_rubric' rubric.pk %}">{{rubric.name}}</a>
+{% endfor%}
+<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{form.as_p}}
+	<input type="submit" value="send">
+</form>
+{% endblock%}

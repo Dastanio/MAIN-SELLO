@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+{% block title %}category{% endblock%}
+{%block content%}
+
+
+  
+<h1>Категория: {{current_rubric.category}}</h1>
+<a href="{% url 'blog' %}">Главная</a>
+{% for rubric in rubrics %}
+
+<a href="{% url 'by_rubric' rubric.pk %}">{{rubric.category}}</a>
+{% endfor%}
+<div class="row row-cols-1 row-cols-md-5">
+    {% for bb in bbs %}
+    <div class="col mb-4">
+      <div class="card">
+        <div class="view overlay">
+          <a href="{% url 'detail' bb.id %}"><img class="card-img-top" style="width: 100%; height: 250px;" src="{{bb.image.url}}" alt=""></a>
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{bb.title}}</h4>
+          <p class="card-text">{{bb.description|truncatechars:"40"}}</p>
+          <p class="card-text">{{bb.price }}{{bb.currency}}</p>
+          <p class="card-text">{{bb.category.category}}</p>
+          <p class="text-muted">{{bb.date_publeshed}}</p>
+          <a href="{% url 'detail' bb.id %}" class="btn btn-primary btn-md">Read more</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock%}

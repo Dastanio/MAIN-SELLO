@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+{% block title %}create{% endblock%}
+{%block content%}
+<h1>Mail us</h1>
+<form method="post">
+	{% csrf_token%}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+	{{form.name}}
+	{{form.number}}
+	{{form.email}}
+	{{form.message}}
+
+	<button type="submit" class="btn btn-success">send</button>
+
+</form>
+{% endblock%}

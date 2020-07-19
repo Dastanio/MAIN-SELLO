@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'blog' %}">Главная</a>
+<a href = "{% url 'add'%}">Добавить +</a>
+<a href="{% url 'about' }">О нас</a>
+{% for rubric in rubrics %}
+<a href="{{rubric.pk}}">{{rubric.category}}</a>
+{% endfor %}
+<div class="row row-cols-1 row-cols-md-5">
+    {% for post in posts %}
+    <div class="col mb-4">
+      <div class="card">
+        <div class="view overlay">
+          <a href="{% url 'detail' post.id %}"><img class="card-img-top" style="width: 100%; height: 250px;" src="{{post.image.url}}" alt=""></a>
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{post.title}}</h4>
+          <p class="card-text">{{post.description|truncatechars:"40"}}</p>
+          <p class="card-text">{{post.price }}{{post.currency}}</p>
+          <p class="card-text">{{post.category.category}}</p>
+          <p class="text-muted">{{post.date_publeshed}}</p>
+          <a href="{% url 'detail' post.id %}" class="btn btn-primary btn-md">Read more</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+        
+
+
+<!--<div class="row row-cols-1 row-cols-md-5">
+    {% for post in posts %}
+    <div class="col mb-4">
+      <div class="card">
+        <div class="view overlay">
+          <img class="card-img-top" src="{{post.image.url}}" alt="">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{post.title}}</h4>
+          <p class="card-text">{{post.description|truncatechars:"100"}}</p>
+          <a href="{% url 'detail' post.id %}" class="btn btn-primary btn-md">Read more</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>-->
+{% endblock %}
