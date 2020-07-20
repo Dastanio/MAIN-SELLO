@@ -1,14 +1,15 @@
-{% extends 'base.html'%}
+{% extends 'blog.html'%}
 {% block title %}create{% endblock%}
 {%block content%}
-<h1>Create your Ads</h1>
-<a href="{% url 'blog' %}">Home</a>
-{% for rubric in rubrics %}
-<a href="{% url 'by_rubric' rubric.pk %}">{{rubric.name}}</a>
-{% endfor%}
+
+<h1>Добавте свое обьявления</h1>
+{% if user.is_authenticated %}
 <form method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	{{form.as_p}}
 	<input type="submit" value="send">
 </form>
+{% else %}
+ЗАРЕГЕСТРИРУЙТЕСЬ ИЛИ АВТОРИЗУЙТЕСЬ!<a href="{% url 'account_login'%}">Авторизоваться</a><a href = "{% url 'account_signup' %}">Регистрация</a>
+{% endif %}
 {% endblock%}

@@ -1,7 +1,8 @@
-{% extends 'base.html'%}
+{% extends 'blog.html'%}
 {% block title %}create{% endblock%}
 {%block content%}
-<h1>Mail us</h1>
+<h1>Напишите нам</h1>
+
 <form method="post">
 	{% csrf_token%}
     {% if messages %}

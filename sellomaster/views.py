@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, HttpResponseRedirect
 from .models import PostImage, Product, Category
-from .forms import mailusForm, ProductForm
+from .forms import MailusForm, ProductForm
 from django.urls import reverse
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 class ProductCreateView(CreateView):
 	template_name = 'create.html'
@@ -19,18 +21,35 @@ class ProductCreateView(CreateView):
 		return context
 
 
+
+
 def blog_view(request):
-    posts = Product.objects.order_by('-date_publeshed')
-    rubrics = Category.objects.all()
-    return render(request, 'blog.html', {'posts':posts, 'rubrics':rubrics})
+	search_query = request.GET.get('search','')
+
+	if search_query:
+		posts = Product.objects.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
+	else:
+		posts = Product.objects.order_by('-date_publeshed')
+
+	paginator = Paginator(posts, 7)
+	page_number = request.GET.get('page')
+
+	page_obj = paginator.get_page(page_number)
+	rubrics = Category.objects.all()
+	return render(request, 'blog.html', { 'rubrics':rubrics, "page_obj": page_obj})
+
 
 def detail_view(request, id):
+	posts = Product.objects.all()
+	rubrics = Category.objects.all()
 	post = get_object_or_404(Product, id=id)
 
 	latest_comments_list = post.comment_set.order_by('-id')[:10]
 
 	photos = PostImage.objects.filter(post=post)
 	context = {
+		'posts':posts,
+		'rubrics':rubrics,
 		'post':post,
 		'photos':photos,
 		'latest_comments_list':latest_comments_list
@@ -47,6 +66,7 @@ def leave_comment(request, id):
 	return HttpResponseRedirect( reverse('detail', args = (post.id,)) )
 
 def about(request):
+	rubrics = Category.objects.all()
 	if request.method == 'POST':
 		form =mailusForm(request.POST)
 		if form.is_valid():
@@ -58,7 +78,8 @@ def about(request):
 
 	form = mailusForm()
 	context = {
-		'form':form
+		'form':form,
+		'rubrics':rubrics,
 	}
 	return render(request, 'about.html', context)
 

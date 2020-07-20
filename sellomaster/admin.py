@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import PostImage, Product, Comment, Category, Currency, Country, mailus
+from .models import PostImage, Product, Comment, Category, Currency, Country, Mailus
 
 admin.site.register(Comment)
 admin.site.register(Category)
@@ -10,7 +10,7 @@ admin.site.register(Currency)
 class mailusAdmin(admin.ModelAdmin):
 	list_display = ('name','message','number','email')
 	list_display_links =('name', 'message')
-admin.site.register(mailus, mailusAdmin)
+admin.site.register(Mailus, mailusAdmin)
 
 class PostImageAdmin(admin.StackedInline):
     model = PostImage

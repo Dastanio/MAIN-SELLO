@@ -1,9 +1,9 @@
-from .models import mailus, Product
+from .models import Mailus, Product
 from django.forms import ModelForm, TextInput, EmailInput, Textarea
 
-class mailusForm(ModelForm):
+class MailusForm(ModelForm):
 	class Meta:
-		model = mailus
+		model = Mailus
 		fields = ['name', 'number', 'email', 'message']
 		widgets = {
 			'name': TextInput(attrs ={
